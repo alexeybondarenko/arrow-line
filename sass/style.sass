@@ -1,0 +1,55 @@
+@import "compass/css3"
+
+@function radToDeg ($rad) 
+  @return $rad * 180  / pi()
+
+$default-arrow-color: #333 !default
+$default-arrow-point-size: 4px !default
+$default-arrow-border-width: 1px !default
+=arrow($arrow-width, $arrow-height, $color: $default-arrow-color, $point-size:$default-arrow-point-size, $border-width: $default-arrow-border-width)
+  position: relative
+  &:after,  &:before
+    content: ''
+    display: block
+    position: absolute
+  &:after
+    left: -1 * $arrow-width -  $point-size / 2
+    height:  $point-size
+    width:  $point-size
+    background-color: $color
+    border-radius: 50%
+    bottom: 0 - $arrow-height
+  &:before
+    border-width: $border-width 0 0 $border-width
+    border-style: solid
+    border-color: $color
+  
+    bottom: 0 - $arrow-height
+    height: $arrow-height
+    +transform-origin(0 0 0)
+    $angle: radToDeg(atan($arrow-width / $arrow-height))
+    +transform(skew(-1*$angle+deg))
+    
+    left: 0
+    right: 0
+    
+=arrowToTop($arrow-width, $arrow-height, $color: $default-arrow-color, $point-size:$default-arrow-point-size, $border-width: $default-arrow-border-width)
+  +arrow($arrow-width, $arrow-height, $color: $default-arrow-color, $point-size:$default-arrow-point-size, $border-width: $default-arrow-border-width)
+  &:before
+    $angle: radToDeg(atan($arrow-width / $arrow-height))
+    +transform(scaleY(-1) skew(-1*$angle+deg))
+  &:after
+    bottom: $arrow-height
+    left:  -1*$arrow-width - $point-size /2
+  
+body
+  margin: 100px
+.arrow
+  padding: 20px 0 10px 5px
+  display: inline-block
+  +arrowToTop(40px, 100px)
+  
+    
+    
+    
+    
